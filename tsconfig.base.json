@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@repo/types": ["packages/types/src/index.ts"],
+      "@repo/utils": ["packages/utils/src/index.ts"],
+      "@repo/schemas": ["packages/schemas/src/index.ts"],
+      "@repo/core": ["packages/core/src/index.ts"],
+      "@repo/api-client": ["packages/api-client/src/index.ts"]
+    }
+  }
+}
