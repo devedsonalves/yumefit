@@ -1,15 +1,16 @@
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, Text } from "react-native";
-import { healthMessage } from "@repo/core";
+import { TabNavigator } from "./navigation/TabNavigator";
+import { LanguageProvider } from "./shared/i18n";
 
 export default function App() {
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-    >
-      <Text>ForgeFit Mobile</Text>
-      <Text>{healthMessage()}</Text>
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <LanguageProvider>
+      <NavigationContainer>
+        <StatusBar style="light" />
+        <TabNavigator />
+      </NavigationContainer>
+    </LanguageProvider>
   );
 }
