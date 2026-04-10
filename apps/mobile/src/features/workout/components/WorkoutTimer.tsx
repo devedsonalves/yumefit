@@ -1,11 +1,11 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { colors, spacing } from "../../../shared/theme";
-import { Typography } from "../../../shared/components/ui/Typography";
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
+import { colors, spacing } from '@/shared/theme'
+import { Typography } from '@/shared/components/ui/Typography'
 
 interface WorkoutTimerProps {
-  time: string;
-  label: string;
+  time: string
+  label: string
 }
 
 export const WorkoutTimer = ({ time, label }: WorkoutTimerProps) => {
@@ -18,12 +18,12 @@ export const WorkoutTimer = ({ time, label }: WorkoutTimerProps) => {
         <Typography variant="label">{label}</Typography>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   timerContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginVertical: spacing.xl,
   },
   progressCircle: {
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     borderRadius: 90,
     borderWidth: 4,
     borderColor: colors.primary,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: colors.surface,
   },
-});
+})

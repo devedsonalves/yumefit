@@ -1,12 +1,12 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { colors } from "../../../shared/theme";
-import { Typography } from "../../../shared/components/ui/Typography";
-import { Card } from "../../../shared/components/ui/Card";
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
+import { colors } from '@/shared/theme'
+import { Typography } from '@/shared/components/ui/Typography'
+import { Card } from '@/shared/components/ui/Card'
 
 interface NextExerciseItemProps {
-  name: string;
-  details: string;
+  name: string
+  details: string
 }
 
 export const NextExerciseItem = ({ name, details }: NextExerciseItemProps) => {
@@ -18,14 +18,14 @@ export const NextExerciseItem = ({ name, details }: NextExerciseItemProps) => {
       </View>
       <Typography variant="h3">➡️</Typography>
     </Card>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   exerciseItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: colors.surfaceLight,
   },
-});
+})

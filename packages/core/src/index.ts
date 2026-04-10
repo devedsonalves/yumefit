@@ -1,3 +1,3 @@
 export const healthMessage = () => {
-  return "ForgeFit monorepo is running";
-};
+  return 'ForgeFit monorepo is running'
+}

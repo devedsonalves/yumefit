@@ -1,36 +1,32 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { Flame } from "lucide-react-native";
-import { colors } from "../../../shared/theme";
-import { Typography } from "../../../shared/components/ui/Typography";
-import { Card } from "../../../shared/components/ui/Card";
-import { useTranslation } from "../../../shared/i18n";
+import { View, StyleSheet } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Flame } from 'lucide-react-native'
+import { colors } from '@/shared/theme'
+import { Typography } from '@/shared/components/ui/Typography'
+import { Card } from '@/shared/components/ui/Card'
+import { useTranslation } from '@/shared/i18n'
 
 interface CaloriesBurnedCardProps {
-  current: number;
-  goal: number;
+  current: number
+  goal: number
 }
 
-export const CaloriesBurnedCard = ({
-  current,
-  goal,
-}: CaloriesBurnedCardProps) => {
-  const { t } = useTranslation();
-  const percentage = Math.min((current / goal) * 100, 100);
+export const CaloriesBurnedCard = ({ current, goal }: CaloriesBurnedCardProps) => {
+  const { t } = useTranslation()
+  const percentage = Math.min((current / goal) * 100, 100)
 
   return (
-    <Card style={styles.metricsCard}>
+    <Card variant="glass" style={styles.metricsCard}>
       <View style={styles.row}>
         <View style={styles.caloriesText}>
           <View style={styles.iconBox}>
             <Flame color={colors.primary} size={24} />
           </View>
           <Typography variant="h3" bold style={styles.mt}>
-            {t("dashboard.calories")}
+            {t('dashboard.calories')}
           </Typography>
           <Typography variant="caption" style={styles.description}>
-            {t("dashboard.calories_desc")}
+            {t('dashboard.calories_desc')}
           </Typography>
         </View>
         <View style={styles.chartCircle}>
@@ -42,9 +38,7 @@ export const CaloriesBurnedCard = ({
               cal
             </Typography>
           </View>
-          <View
-            style={[styles.progressHalf, { transform: [{ rotate: "45deg" }] }]}
-          />
+          <View style={[styles.progressHalf, { transform: [{ rotate: '45deg' }] }]} />
         </View>
       </View>
 
@@ -58,27 +52,27 @@ export const CaloriesBurnedCard = ({
       </View>
       <View style={styles.rowBetween}>
         <Typography variant="caption">
-          {t("dashboard.goal")}: {goal.toLocaleString()} cal
+          {t('dashboard.goal')}: {goal.toLocaleString()} cal
         </Typography>
         <Typography variant="caption" color="primary">
-          🔥 {t("dashboard.calories")}
+          🔥 {t('dashboard.calories')}
         </Typography>
       </View>
     </Card>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   metricsCard: { marginBottom: 16, padding: 24 },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   rowBetween: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 8,
   },
   caloriesText: { flex: 1, paddingRight: 16 },
@@ -86,9 +80,9 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "rgba(255, 122, 0, 0.1)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(255, 122, 0, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   mt: { marginTop: 16 },
   description: { color: colors.textMuted, fontSize: 12, marginTop: 4 },
@@ -98,27 +92,27 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     borderWidth: 10,
     borderColor: colors.surfaceLight,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative",
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
   },
-  progressInner: { alignItems: "center" },
+  progressInner: { alignItems: 'center' },
   progressHalf: {
-    position: "absolute",
+    position: 'absolute',
     width: 140,
     height: 140,
     borderRadius: 70,
     borderWidth: 10,
     borderColor: colors.primary,
-    borderBottomColor: "transparent",
-    borderLeftColor: "transparent",
+    borderBottomColor: 'transparent',
+    borderLeftColor: 'transparent',
   },
   progressBarBg: {
     height: 8,
     backgroundColor: colors.surfaceLight,
     borderRadius: 4,
     marginVertical: 16,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
-  progressBarFill: { height: "100%", borderRadius: 4 },
-});
+  progressBarFill: { height: '100%', borderRadius: 4 },
+})

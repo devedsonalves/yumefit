@@ -1,42 +1,27 @@
-import React from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  View,
-  ActivityIndicator,
-} from "react-native";
-import { colors, spacing } from "../../../shared/theme";
-import { Button } from "../../../shared/components/ui/Button";
-import { CaloriesBurnedCard } from "../components/CaloriesBurnedCard";
-import { WorkoutProgressCard } from "../components/WorkoutProgressCard";
-import { BodyWeightCard } from "../components/BodyWeightCard";
-import { ExerciseStatCard } from "../components/ExerciseStatCard";
-import { useDashboard } from "../hooks/useDashboard";
-import { useTranslation } from "../../../shared/i18n";
+import { ScrollView, StyleSheet, View, ActivityIndicator } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { colors, spacing } from '@/shared/theme'
+import { Button } from '@/shared/components/ui/Button'
+import { CaloriesBurnedCard } from '../components/CaloriesBurnedCard'
+import { WorkoutProgressCard } from '../components/WorkoutProgressCard'
+import { BodyWeightCard } from '../components/BodyWeightCard'
+import { ExerciseStatCard } from '../components/ExerciseStatCard'
+import { DashboardSkeleton } from '../components/DashboardSkeleton'
+import { useDashboard } from '../hooks/useDashboard'
+import { useTranslation } from '@/shared/i18n'
 
 export const Dashboard = () => {
-  const { data, isLoading } = useDashboard();
-  const { t } = useTranslation();
+  const { data, isLoading } = useDashboard()
+  const { t } = useTranslation()
 
   if (isLoading) {
-    return (
-      <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator color={colors.primary} size="large" />
-      </SafeAreaView>
-    );
+    return <DashboardSkeleton />
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <CaloriesBurnedCard
-          current={data.calories.current}
-          goal={data.calories.goal}
-        />
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <CaloriesBurnedCard current={data.calories.current} goal={data.calories.goal} />
 
         <WorkoutProgressCard
           completed={data.workoutProgress.completed}
@@ -62,32 +47,32 @@ export const Dashboard = () => {
         </View>
 
         <Button
-          title={t("dashboard.start_workout")}
+          title={t('dashboard.start_workout')}
           onPress={() => {}}
           style={styles.startButton}
         />
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
   loadingContainer: {
     flex: 1,
     backgroundColor: colors.background,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollContent: {
     padding: spacing.md,
-    paddingTop: 100,
+    paddingTop: 80,
     paddingBottom: 120,
   },
   rowGrid: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: spacing.md,
     marginBottom: spacing.md,
   },
   startButton: { height: 60, borderRadius: 20 },
-});
+})

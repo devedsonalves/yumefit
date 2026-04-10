@@ -1,15 +1,8 @@
-import React from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { colors, spacing, radius } from "../../../shared/theme";
-import { Typography } from "../../../shared/components/ui/Typography";
-import { Card } from "../../../shared/components/ui/Card";
+import { ScrollView, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { colors, spacing } from '@/shared/theme'
+import { Typography } from '@/shared/components/ui/Typography'
+import { Card } from '@/shared/components/ui/Card'
 import {
   User,
   Settings,
@@ -19,15 +12,15 @@ import {
   LogOut,
   CreditCard,
   Languages,
-} from "lucide-react-native";
-import { useTranslation } from "../../../shared/i18n";
+  Dumbbell,
+  Flame,
+  Timer,
+} from 'lucide-react-native'
+import { useTranslation } from '@/shared/i18n'
+import { ProfileSkeleton } from '../components/ProfileSkeleton'
+import React, { useState, useEffect } from 'react'
 
-const MenuOption = ({
-  label,
-  icon: Icon,
-  color = colors.text,
-  onPress,
-}: any) => (
+const MenuOption = ({ label, icon: Icon, color = colors.text, onPress }: any) => (
   <TouchableOpacity style={styles.menuItem} onPress={onPress}>
     <View style={styles.row}>
       <View style={[styles.menuIconBox, { backgroundColor: `${color}10` }]}>
@@ -37,32 +30,46 @@ const MenuOption = ({
     </View>
     <ChevronRight color={colors.textMuted} size={18} />
   </TouchableOpacity>
-);
+)
 
 export const Profile = () => {
-  const { t, language, setLanguage } = useTranslation();
+  const { t, language, setLanguage } = useTranslation()
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (isLoading) {
+    return <ProfileSkeleton />
+  }
 
   const toggleLanguage = () => {
-    setLanguage(language === "en" ? "pt" : "en");
-  };
+    setLanguage(language === 'en' ? 'pt' : 'en')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.profileHeader}>
           <Image
-            source={{ uri: "https://i.pravatar.cc/150?u=forgefit" }}
+            source={{
+              uri: 'https://media.licdn.com/dms/image/v2/D4E03AQGatryqpv3czg/profile-displayphoto-scale_200_200/B4EZ1ziihZJcAc-/0/1775759931533?e=2147483647&v=beta&t=qwqPTG8tEeFEv_iudK-iOtJWUgsjdQleGEfEWT9V7CE',
+            }}
             style={styles.avatar}
           />
           <View style={styles.profileInfo}>
-            <Typography variant="h2" bold>
-              Devedson Alves
-            </Typography>
+            <View style={styles.nameRow}>
+              <Typography variant="h2" bold>
+                Edson Alves
+              </Typography>
+              <View style={styles.badge}>
+                <Typography style={styles.badgeText}>PRO</Typography>
+              </View>
+            </View>
             <Typography variant="caption" color="textMuted">
-              {t("profile.member_since")} 2023
+              {t('profile.member_since')} 2023
             </Typography>
           </View>
           <TouchableOpacity style={styles.editButton}>
@@ -70,42 +77,53 @@ export const Profile = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.statsRow}>
+        <Card variant="glass" style={styles.statsRow}>
           <View style={styles.statBox}>
-            <Typography variant="h2" bold color="primary">
+            <View style={[styles.statIconBox, { backgroundColor: `${colors.primary}15` }]}>
+              <Dumbbell size={18} color={colors.primary} />
+            </View>
+            <Typography variant="h2" bold>
               24
             </Typography>
-            <Typography variant="label" color="textMuted">
-              {t("profile.workouts")}
+            <Typography variant="label" color="textMuted" align="center">
+              {t('profile.workouts').toUpperCase()}
             </Typography>
           </View>
+
           <View style={[styles.statBox, styles.borderLeft]}>
-            <Typography variant="h2" bold color="primary">
+            <View style={[styles.statIconBox, { backgroundColor: 'rgba(255, 69, 58, 0.15)' }]}>
+              <Flame size={18} color={colors.error} />
+            </View>
+            <Typography variant="h2" bold>
               12k
             </Typography>
-            <Typography variant="label" color="textMuted">
-              {t("profile.calories")}
+            <Typography variant="label" color="textMuted" align="center">
+              {t('profile.calories').toUpperCase()}
             </Typography>
           </View>
+
           <View style={[styles.statBox, styles.borderLeft]}>
-            <Typography variant="h2" bold color="primary">
+            <View style={[styles.statIconBox, { backgroundColor: 'rgba(50, 215, 75, 0.15)' }]}>
+              <Timer size={18} color={colors.success} />
+            </View>
+            <Typography variant="h2" bold>
               15h
             </Typography>
-            <Typography variant="label" color="textMuted">
-              {t("profile.hours")}
+            <Typography variant="label" color="textMuted" align="center">
+              {t('profile.hours').toUpperCase()}
             </Typography>
           </View>
-        </View>
+        </Card>
 
         <Typography variant="h3" bold style={styles.sectionTitle}>
-          {t("profile.account")}
+          {t('profile.account')}
         </Typography>
-        <Card style={styles.menuCard}>
-          <MenuOption label={t("profile.personal_info")} icon={User} />
+        <Card variant="glass" style={styles.menuCard}>
+          <MenuOption label={t('profile.personal_info')} icon={User} />
           <View style={styles.divider} />
-          <MenuOption label={t("profile.notifications")} icon={Bell} />
+          <MenuOption label={t('profile.notifications')} icon={Bell} />
           <View style={styles.divider} />
-          <MenuOption label={t("profile.subscription")} icon={CreditCard} />
+          <MenuOption label={t('profile.subscription')} icon={CreditCard} />
           <View style={styles.divider} />
           <MenuOption
             label={`${language.toUpperCase()} (Switch)`}
@@ -116,16 +134,12 @@ export const Profile = () => {
         </Card>
 
         <Typography variant="h3" bold style={styles.sectionTitle}>
-          {t("profile.security")}
+          {t('profile.security')}
         </Typography>
-        <Card style={styles.menuCard}>
-          <MenuOption label={t("profile.privacy")} icon={Lock} />
+        <Card variant="glass" style={styles.menuCard}>
+          <MenuOption label={t('profile.privacy')} icon={Lock} />
           <View style={styles.divider} />
-          <MenuOption
-            label={t("profile.logout")}
-            icon={LogOut}
-            color={colors.error}
-          />
+          <MenuOption label={t('profile.logout')} icon={LogOut} color={colors.error} />
         </Card>
 
         <View style={styles.footer}>
@@ -135,20 +149,21 @@ export const Profile = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
   scrollContent: {
     padding: spacing.md,
     paddingTop: 80,
     paddingBottom: 120,
   },
   profileHeader: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: spacing.xl,
+    paddingHorizontal: spacing.xs,
   },
   avatar: {
     width: 80,
@@ -161,59 +176,84 @@ const styles = StyleSheet.create({
     marginLeft: spacing.lg,
     flex: 1,
   },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  badge: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  badgeText: {
+    color: colors.background,
+    fontSize: 10,
+    fontWeight: '800',
+  },
   editButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: colors.surface,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   statsRow: {
-    flexDirection: "row",
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
+    flexDirection: 'row',
     marginBottom: spacing.xl,
+    padding: spacing.lg,
   },
   statBox: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+  },
+  statIconBox: {
+    width: 38,
+    height: 38,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
   },
   borderLeft: {
     borderLeftWidth: 1,
-    borderLeftColor: colors.border,
+    borderLeftColor: 'rgba(255, 255, 255, 0.1)',
   },
   sectionTitle: {
     marginBottom: spacing.md,
+    paddingHorizontal: spacing.xs,
   },
   menuCard: {
     padding: 0,
     marginBottom: spacing.lg,
-    overflow: "hidden",
   },
   menuItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: spacing.md,
   },
-  row: { flexDirection: "row", alignItems: "center" },
+  row: { flexDirection: 'row', alignItems: 'center' },
   menuIconBox: {
     width: 36,
     height: 36,
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   ml: { marginLeft: 12 },
   divider: {
     height: 1,
-    backgroundColor: colors.border,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     marginHorizontal: spacing.md,
   },
   footer: {
     marginTop: spacing.xl,
     paddingBottom: spacing.lg,
   },
-});
+})
