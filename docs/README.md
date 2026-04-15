@@ -10,25 +10,29 @@ O sistema é **multiplataforma** e construído como um **monorepo moderno**, com
 
 ### Backend
 
-* Node.js
-* TypeScript
-* Fastify
+- Node.js
+- TypeScript
+- Express
+- TypeORM
+- PostgreSQL
+- Redis
+- Tsyringe (DI)
 
 ### Frontend Web
 
-* React
-* Vite
-* TypeScript
+- React
+- Vite
+- TypeScript
 
 ### Mobile
 
-* React Native (Expo)
-* TypeScript
+- React Native (Expo)
+- TypeScript
 
 ### Monorepo
 
-* PNPM Workspaces
-* Turborepo
+- PNPM Workspaces
+- Turborepo
 
 ---
 
@@ -62,10 +66,10 @@ forgefit/
 
 O projeto segue uma combinação de:
 
-* **Monorepo (apps + packages)**
-* **Backend modular + Clean Architecture**
-* **Frontend orientado a features**
-* **Compartilhamento via código puro (agnóstico)**
+- **Monorepo (apps + packages)**
+- **Backend modular + Clean Architecture**
+- **Frontend orientado a features**
+- **Compartilhamento via código puro (agnóstico)**
 
 ---
 
@@ -141,25 +145,25 @@ Helpers puros.
 
 Todo código dentro de `packages/` deve ser:
 
-* independente de ambiente
-* sem dependência de React
-* sem dependência de Node APIs
-* reutilizável
+- independente de ambiente
+- sem dependência de React
+- sem dependência de Node APIs
+- reutilizável
 
 ---
 
 ## UI
 
-* `ui-web` → apenas React (web)
-* `ui-mobile` → apenas React Native
+- `ui-web` → apenas React (web)
+- `ui-mobile` → apenas React Native
 
 ---
 
 ## Não fazer
 
-* Misturar código web com mobile
-* Colocar regra de negócio no frontend
-* Criar packages desnecessários
+- Misturar código web com mobile
+- Colocar regra de negócio no frontend
+- Criar packages desnecessários
 
 ---
 
@@ -185,10 +189,11 @@ features/
 ```
 modules/
   <feature>/
-    domain/
-    application/
-    infra/
-    http/
+    dtos/            # Data Transfer Objects
+    infrastructure/  # HTTP controllers, TypeORM entities/repos
+    providers/       # Module-specific providers
+    repositories/    # Repository interfaces
+    services/        # Business logic / Use cases
 ```
 
 ---
@@ -197,9 +202,9 @@ modules/
 
 > Simples para começar. Estruturado para escalar.
 
-* Evitar overengineering
-* Compartilhar apenas o necessário
-* Priorizar organização por domínio
+- Evitar overengineering
+- Compartilhar apenas o necessário
+- Priorizar organização por domínio
 
 ---
 
@@ -216,13 +221,13 @@ pnpm test       # testes
 
 # 🚀 Roadmap (exemplo)
 
-* [ ] Autenticação
-* [ ] Gestão de usuários
-* [ ] Treinos e planos
-* [ ] Dashboard
-* [ ] App mobile MVP
-* [ ] Sistema de pagamentos
-* [ ] Notificações push
+- [ ] Autenticação
+- [ ] Gestão de usuários
+- [ ] Treinos e planos
+- [ ] Dashboard
+- [ ] App mobile MVP
+- [ ] Sistema de pagamentos
+- [ ] Notificações push
 
 ---
 

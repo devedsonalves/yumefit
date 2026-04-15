@@ -1,10 +1,30 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "lib": ["ES2022"],
-    "types": ["node"]
+    "target": "es2017",
+    "module": "commonjs",
+    "allowJs": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "baseUrl": "./src",
+    "paths": {
+      "@shared/*": ["shared/*"],
+      "@modules/*": ["modules/*"],
+      "@config/*": ["config/*"]
+    },
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"]
+  "exclude": [
+    "jest.config.ts",
+    "coverage/*",
+    "ormconfig.ts"
+  ],
+  "include": [
+    "src/**/*"
+  ]
 }
