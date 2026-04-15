@@ -12,7 +12,11 @@ O sistema é **multiplataforma** e construído como um **monorepo moderno**, com
 
 - Node.js
 - TypeScript
-- Fastify
+- Express
+- TypeORM
+- PostgreSQL
+- Redis
+- Tsyringe (DI)
 
 ### Frontend Web
 
@@ -185,10 +189,11 @@ features/
 ```
 modules/
   <feature>/
-    domain/
-    application/
-    infra/
-    http/
+    dtos/            # Data Transfer Objects
+    infrastructure/  # HTTP controllers, TypeORM entities/repos
+    providers/       # Module-specific providers
+    repositories/    # Repository interfaces
+    services/        # Business logic / Use cases
 ```
 
 ---
