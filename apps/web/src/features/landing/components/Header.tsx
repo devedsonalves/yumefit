@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="text-sm font-bold uppercase tracking-widest text-white/70 hover:text-brand-orange transition-colors"
+              className="text-sm font-bold uppercase tracking-widest text-white/70 hover:text-brand-primary transition-colors"
             >
               {item}
             </a>

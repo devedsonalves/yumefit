@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
                 <a
                   key={i}
                   href="#"
-                  className="text-brand-muted hover:text-brand-orange transition-colors"
+                  className="text-brand-muted hover:text-brand-primary transition-colors"
                 >
                   <Icon size={20} />
                 </a>
@@ -72,9 +72,9 @@ export const Footer: React.FC = () => {
               <input
                 type="email"
                 placeholder="SEU EMAIL"
-                className="bg-brand-gray/50 border border-white/10 px-4 py-3 text-xs font-bold tracking-widest focus:outline-none focus:border-brand-orange w-full"
+                className="bg-brand-gray/50 border border-white/10 px-4 py-3 text-xs font-bold tracking-widest focus:outline-none focus:border-brand-primary w-full"
               />
-              <button className="bg-brand-orange px-4 py-3 hover:bg-brand-orange-bright transition-colors">
+              <button className="bg-brand-primary px-4 py-3 hover:bg-brand-primary-bright transition-colors">
                 <ArrowRight size={16} />
               </button>
             </form>
