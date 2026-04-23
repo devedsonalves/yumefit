@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react'
-import { translations, TranslationKeys } from './translations'
+import { translations } from '.'
 
 type Language = 'en' | 'pt'
 

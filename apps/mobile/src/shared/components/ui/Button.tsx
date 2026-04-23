@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   TouchableOpacity,
   Text,
@@ -7,7 +6,8 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
-import { colors, spacing, radius } from '../../theme'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
+import { spacing, radius } from '../../theme'
 
 interface ButtonProps {
   title: string
@@ -30,6 +30,8 @@ export const Button = ({
   style,
   textStyle,
 }: ButtonProps) => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
   const isOutline = variant === 'outline'
   const isSecondary = variant === 'secondary'
 
@@ -59,46 +61,47 @@ export const Button = ({
   )
 }
 
-const styles = StyleSheet.create({
-  base: {
-    borderRadius: radius.lg,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  sm: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
-  },
-  md: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-  },
-  lg: {
-    paddingVertical: spacing.lg,
-    paddingHorizontal: spacing.xl,
-  },
-  primary: {
-    backgroundColor: colors.primary,
-  },
-  secondary: {
-    backgroundColor: colors.surfaceLight,
-  },
-  outline: {
-    backgroundColor: 'transparent',
-    borderWidth: 1.5,
-    borderColor: colors.primary,
-  },
-  disabled: {
-    opacity: 0.5,
-  },
-  textBase: {
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  textSm: { fontSize: 14 },
-  textMd: { fontSize: 16 },
-  textLg: { fontSize: 18 },
-  textOutline: { color: colors.primary },
-  textSecondary: { color: colors.textMuted },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    base: {
+      borderRadius: radius.lg,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+    },
+    sm: {
+      paddingVertical: spacing.sm,
+      paddingHorizontal: spacing.md,
+    },
+    md: {
+      paddingVertical: spacing.md,
+      paddingHorizontal: spacing.lg,
+    },
+    lg: {
+      paddingVertical: spacing.lg,
+      paddingHorizontal: spacing.xl,
+    },
+    primary: {
+      backgroundColor: colors.primary,
+    },
+    secondary: {
+      backgroundColor: colors.surfaceLight,
+    },
+    outline: {
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      borderColor: colors.primary,
+    },
+    disabled: {
+      opacity: 0.5,
+    },
+    textBase: {
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    textSm: { fontSize: 14 },
+    textMd: { fontSize: 16 },
+    textLg: { fontSize: 18 },
+    textOutline: { color: colors.primary },
+    textSecondary: { color: colors.textMuted },
+  })

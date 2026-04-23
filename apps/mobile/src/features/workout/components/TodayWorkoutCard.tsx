@@ -1,10 +1,11 @@
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Play } from 'lucide-react-native'
-import { colors, spacing, radius } from '@/shared/theme'
+import { spacing, radius } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
 import { Card } from '@/shared/components/ui/Card'
-import { useTranslation } from '@/shared/i18n'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface TodayWorkoutCardProps {
   routine: string
@@ -21,6 +22,9 @@ export const TodayWorkoutCard = ({
   intensity,
   onPress,
 }: TodayWorkoutCardProps) => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
+
   const { t } = useTranslation()
 
   return (
@@ -71,47 +75,48 @@ export const TodayWorkoutCard = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: spacing.lg,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.xl,
-  },
-  title: {
-    marginTop: 4,
-  },
-  playButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  divider: {
-    width: 1,
-    height: 30,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  uppercase: {
-    textTransform: 'uppercase',
-  },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: spacing.lg,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.xl,
+    },
+    title: {
+      marginTop: 4,
+    },
+    playButton: {
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowColor: colors.primary,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 8,
+      elevation: 5,
+    },
+    statsRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    statItem: {
+      flex: 1,
+      alignItems: 'center',
+    },
+    divider: {
+      width: 1,
+      height: 30,
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    uppercase: {
+      textTransform: 'uppercase',
+    },
+  })

@@ -1,8 +1,8 @@
 import { View, StyleSheet } from 'react-native'
-import { colors } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
 import { Card } from '@/shared/components/ui/Card'
-import { useTranslation } from '@/shared/i18n'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface BodyWeightCardProps {
   currentWeight: number
@@ -11,6 +11,9 @@ interface BodyWeightCardProps {
 }
 
 export const BodyWeightCard = ({ currentWeight, startWeight, period }: BodyWeightCardProps) => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
+
   const { t } = useTranslation()
 
   return (
@@ -39,22 +42,23 @@ export const BodyWeightCard = ({ currentWeight, startWeight, period }: BodyWeigh
   )
 }
 
-const styles = StyleSheet.create({
-  metricsCard: { marginBottom: 16, padding: 24 },
-  rowBetween: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  weightChart: { height: 100, justifyContent: 'center', marginVertical: 16 },
-  weightLine: { height: 2, backgroundColor: colors.surfaceLight },
-  weightPoint: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.primary,
-    position: 'absolute',
-    right: 40,
-  },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    metricsCard: { marginBottom: 16, padding: 24 },
+    rowBetween: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 8,
+    },
+    weightChart: { height: 100, justifyContent: 'center', marginVertical: 16 },
+    weightLine: { height: 2, backgroundColor: colors.surfaceLight },
+    weightPoint: {
+      width: 10,
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: colors.primary,
+      position: 'absolute',
+      right: 40,
+    },
+  })
