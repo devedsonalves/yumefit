@@ -16,9 +16,9 @@ export const Hero: React.FC = () => {
 
       <div className="container-custom relative py-12 z-10 grid lg:grid-cols-2 gap-12 items-center">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 border border-brand-orange/20 rounded-full mb-8 animate-fade-in">
-            <TrendingUp size={14} className="text-brand-orange" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-orange">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-primary/10 border border-brand-primary/20 rounded-full mb-8 animate-fade-in">
+            <TrendingUp size={14} className="text-brand-primary" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary">
               A Nova Era da Performance
             </span>
           </div>
@@ -29,7 +29,7 @@ export const Hero: React.FC = () => {
             </div>
             <br />
             <div className="text-reveal">
-              <span className="text-reveal-inner text-brand-orange">CAMPEÃO</span>
+              <span className="text-reveal-inner text-brand-primary">CAMPEÃO</span>
             </div>
           </h1>
 
@@ -44,10 +44,10 @@ export const Hero: React.FC = () => {
               <div className="w-6 h-px bg-white group-hover:w-10 transition-all" />
             </a>
             <button className="flex items-center justify-center gap-4 group">
-              <div className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center group-hover:border-brand-orange transition-colors">
+              <div className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center group-hover:border-brand-primary transition-colors">
                 <Play
                   fill="currentColor"
-                  className="ml-1 text-white group-hover:text-brand-orange transition-colors"
+                  className="ml-1 text-white group-hover:text-brand-primary transition-colors"
                 />
               </div>
               <span className="text-sm font-bold uppercase tracking-widest">Ver Metodologia</span>

@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { colors, spacing } from '@/shared/theme'
+import { spacing } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface WorkoutTimerProps {
   time: string
@@ -9,6 +10,9 @@ interface WorkoutTimerProps {
 }
 
 export const WorkoutTimer = ({ time, label }: WorkoutTimerProps) => {
+  const { theme: colors } = useAppTheme();
+  const styles = useStyles(colors);
+
   return (
     <View style={styles.timerContainer}>
       <View style={styles.progressCircle}>
@@ -21,7 +25,7 @@ export const WorkoutTimer = ({ time, label }: WorkoutTimerProps) => {
   )
 }
 
-const styles = StyleSheet.create({
+const useStyles = (colors: any) => StyleSheet.create({
   timerContainer: {
     alignItems: 'center',
     marginVertical: spacing.xl,

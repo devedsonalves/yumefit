@@ -1,9 +1,13 @@
 import { View, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Skeleton } from '@/shared/components/ui/Skeleton'
-import { spacing, colors, radius } from '@/shared/theme'
+import { spacing, radius } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 export const WorkoutSkeleton = () => {
+  const { theme: colors } = useAppTheme();
+  const styles = useStyles(colors);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -19,7 +23,7 @@ export const WorkoutSkeleton = () => {
   )
 }
 
-const styles = StyleSheet.create({
+const useStyles = (colors: any) => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
   content: {
     padding: spacing.md,

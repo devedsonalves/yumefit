@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, View, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { colors, spacing } from '@/shared/theme'
+import { spacing } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
 import { Card } from '@/shared/components/ui/Card'
 import { TodayWorkoutCard } from '../components/TodayWorkoutCard'
@@ -8,9 +8,13 @@ import { WorkoutHistoryItem } from '../components/WorkoutHistoryItem'
 import { ExerciseStatCard } from '../../dashboard/components/ExerciseStatCard'
 import { WorkoutSkeleton } from '../components/WorkoutSkeleton'
 import { useWorkoutOverview } from '../hooks/useWorkoutOverview'
-import { useTranslation } from '@/shared/i18n'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 export const WorkoutMode = () => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
+
   const { data, isLoading } = useWorkoutOverview()
   const { t } = useTranslation()
 
@@ -66,37 +70,38 @@ export const WorkoutMode = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: colors.background,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  header: {
-    marginBottom: spacing.lg,
-    paddingHorizontal: spacing.xs,
-  },
-  scrollContent: {
-    padding: spacing.md,
-    paddingTop: 80,
-    paddingBottom: 120,
-  },
-  rowGrid: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    marginBottom: spacing.xl,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.md,
-    paddingHorizontal: spacing.xs,
-  },
-  historyCard: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-  },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
+    loadingContainer: {
+      flex: 1,
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    header: {
+      marginBottom: spacing.lg,
+      paddingHorizontal: spacing.xs,
+    },
+    scrollContent: {
+      padding: spacing.md,
+      paddingTop: 80,
+      paddingBottom: 120,
+    },
+    rowGrid: {
+      flexDirection: 'row',
+      gap: spacing.md,
+      marginBottom: spacing.xl,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.md,
+      paddingHorizontal: spacing.xs,
+    },
+    historyCard: {
+      paddingHorizontal: spacing.md,
+      paddingVertical: spacing.xs,
+    },
+  })

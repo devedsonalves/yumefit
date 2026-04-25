@@ -14,11 +14,11 @@ export const About: React.FC = () => {
                 className="w-full h-full object-cover grayscale brightness-50"
               />
               {/* Overlay Grid */}
-              <div className="absolute inset-0 bg-brand-orange/5 mix-blend-overlay" />
+              <div className="absolute inset-0 bg-brand-primary/5 mix-blend-overlay" />
             </div>
 
             {/* Floating Card */}
-            <div className="absolute -bottom-12 -right-12 bg-brand-orange p-12 hidden md:block z-20">
+            <div className="absolute -bottom-12 -right-12 bg-brand-primary p-12 hidden md:block z-20">
               <div className="text-6xl font-black italic tracking-tighter text-white mb-2">
                 10Y+
               </div>
@@ -28,16 +28,16 @@ export const About: React.FC = () => {
             </div>
 
             {/* Decoration */}
-            <div className="absolute top-12 -left-12 w-full h-full border border-brand-orange/20 -z-10" />
+            <div className="absolute top-12 -left-12 w-full h-full border border-brand-primary/20 -z-10" />
           </div>
 
           <div className="order-1 lg:order-2">
-            <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-brand-orange mb-6">
+            <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-brand-primary mb-6">
               Nossa Essência
             </h2>
             <h3 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-none mb-12">
               MAIS QUE UM APP, <br />
-              UM <span className="text-brand-orange">MANIFESTO</span>
+              UM <span className="text-brand-primary">MANIFESTO</span>
             </h3>
 
             <p className="text-xl text-brand-muted mb-12 leading-relaxed italic">
@@ -53,8 +53,8 @@ export const About: React.FC = () => {
                 'Integração nativa com dispositivos de elite.',
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group">
-                  <div className="w-6 h-6 rounded-full border border-brand-orange/30 flex items-center justify-center group-hover:bg-brand-orange transition-all duration-300">
-                    <CheckCircle2 size={14} className="text-brand-orange group-hover:text-white" />
+                  <div className="w-6 h-6 rounded-full border border-brand-primary/30 flex items-center justify-center group-hover:bg-brand-primary transition-all duration-300">
+                    <CheckCircle2 size={14} className="text-brand-primary group-hover:text-white" />
                   </div>
                   <span className="text-lg font-medium text-white/80 group-hover:text-white transition-colors">
                     {item}

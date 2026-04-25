@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { colors } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
 import { Card } from '@/shared/components/ui/Card'
-import { useTranslation } from '@/shared/i18n'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface WorkoutProgressCardProps {
   completed: number
@@ -12,6 +12,9 @@ interface WorkoutProgressCardProps {
 }
 
 export const WorkoutProgressCard = ({ completed, total, chartData }: WorkoutProgressCardProps) => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
+
   const { t } = useTranslation()
   return (
     <Card variant="glass" style={styles.metricsCard}>
@@ -49,15 +52,16 @@ export const WorkoutProgressCard = ({ completed, total, chartData }: WorkoutProg
   )
 }
 
-const styles = StyleSheet.create({
-  metricsCard: { marginBottom: 16, padding: 24 },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  barChart: { flexDirection: 'row', alignItems: 'flex-end', gap: 6 },
-  barContainer: { alignItems: 'center' },
-  bar: { width: 12, borderRadius: 6 },
-  barLabel: { fontSize: 8, marginTop: 4 },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    metricsCard: { marginBottom: 16, padding: 24 },
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    barChart: { flexDirection: 'row', alignItems: 'flex-end', gap: 6 },
+    barContainer: { alignItems: 'center' },
+    bar: { width: 12, borderRadius: 6 },
+    barLabel: { fontSize: 8, marginTop: 4 },
+  })

@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { View, StyleSheet, Animated, Easing, ViewStyle } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { colors, radius } from '../../theme'
+import { radius } from '../../theme'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface SkeletonProps {
   width?: number | string
@@ -11,6 +12,8 @@ interface SkeletonProps {
 }
 
 export const Skeleton = ({ width, height, borderRadius = radius.md, style }: SkeletonProps) => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
   const shimmerAnimatedValue = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -50,9 +53,10 @@ export const Skeleton = ({ width, height, borderRadius = radius.md, style }: Ske
   )
 }
 
-const styles = StyleSheet.create({
-  skeleton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    overflow: 'hidden',
-  },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    skeleton: {
+      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      overflow: 'hidden',
+    },
+  })

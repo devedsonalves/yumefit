@@ -1,8 +1,9 @@
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { ChevronRight, Clock } from 'lucide-react-native'
-import { colors, spacing } from '@/shared/theme'
+import { spacing } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface WorkoutHistoryItemProps {
   routine: string
@@ -17,6 +18,9 @@ export const WorkoutHistoryItem = ({
   duration,
   onPress,
 }: WorkoutHistoryItemProps) => {
+  const { theme: colors } = useAppTheme();
+  const styles = useStyles(colors);
+
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.iconBox}>
@@ -35,7 +39,7 @@ export const WorkoutHistoryItem = ({
   )
 }
 
-const styles = StyleSheet.create({
+const useStyles = (colors: any) => StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',

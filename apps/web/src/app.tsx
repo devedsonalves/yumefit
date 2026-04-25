@@ -1,5 +1,5 @@
-import { LandingPage } from './features/landing/LandingPage'
+import { Router } from './shared/routes'
 
 export function App() {
-  return <LandingPage />
+  return <Router />
 }
