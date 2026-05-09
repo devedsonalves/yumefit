@@ -18,12 +18,21 @@
     "@repo/types": "workspace:*",
     "@repo/utils": "workspace:*",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "react-router-dom": "^7.14.2"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "@tailwindcss/vite": "^4.2.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.5.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.9.0",
+    "postcss": "^8.5.10",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.4",
     "typescript": "^5.8.3",
     "vite": "^6.2.0"
   }

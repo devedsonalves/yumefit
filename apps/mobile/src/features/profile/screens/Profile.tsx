@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { colors, spacing } from '@/shared/theme'
+import { spacing } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
 import { Card } from '@/shared/components/ui/Card'
 import {
@@ -15,24 +15,35 @@ import {
   Dumbbell,
   Flame,
   Timer,
+  Moon,
 } from 'lucide-react-native'
-import { useTranslation } from '@/shared/i18n'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import { ProfileSkeleton } from '../components/ProfileSkeleton'
 import React, { useState, useEffect } from 'react'
 
-const MenuOption = ({ label, icon: Icon, color = colors.text, onPress }: any) => (
-  <TouchableOpacity style={styles.menuItem} onPress={onPress}>
-    <View style={styles.row}>
-      <View style={[styles.menuIconBox, { backgroundColor: `${color}10` }]}>
-        <Icon color={color} size={20} />
+const MenuOption = ({ label, icon: Icon, color, onPress }: any) => {
+  const { theme: colors } = useAppTheme()
+  const safeColor = color || colors.text
+  const styles = useStyles(colors)
+
+  return (
+    <TouchableOpacity style={styles.menuItem} onPress={onPress}>
+      <View style={styles.row}>
+        <View style={[styles.menuIconBox, { backgroundColor: `${safeColor}10` }]}>
+          <Icon color={safeColor} size={20} />
+        </View>
+        <Typography style={styles.ml}>{label}</Typography>
       </View>
-      <Typography style={styles.ml}>{label}</Typography>
-    </View>
-    <ChevronRight color={colors.textMuted} size={18} />
-  </TouchableOpacity>
-)
+      <ChevronRight color={colors.textMuted} size={18} />
+    </TouchableOpacity>
+  )
+}
 
 export const Profile = () => {
+  const { theme: colors, mode, setMode } = useAppTheme()
+  const styles = useStyles(colors)
+
   const { t, language, setLanguage } = useTranslation()
   const [isLoading, setIsLoading] = useState(true)
 
@@ -119,17 +130,22 @@ export const Profile = () => {
           {t('profile.account')}
         </Typography>
         <Card variant="glass" style={styles.menuCard}>
-          <MenuOption label={t('profile.personal_info')} icon={User} />
+          <MenuOption label={t('profile.personal_info')} icon={User} color={colors.text} />
           <View style={styles.divider} />
-          <MenuOption label={t('profile.notifications')} icon={Bell} />
+          <MenuOption label={t('profile.notifications')} icon={Bell} color={colors.text} />
           <View style={styles.divider} />
-          <MenuOption label={t('profile.subscription')} icon={CreditCard} />
+          <MenuOption label={t('profile.subscription')} icon={CreditCard} color={colors.text} />
           <View style={styles.divider} />
           <MenuOption
             label={`${language.toUpperCase()} (Switch)`}
             icon={Languages}
             onPress={toggleLanguage}
-            color={colors.primary}
+          />
+          <View style={styles.divider} />
+          <MenuOption
+            label={(mode === 'dark' ? 'Dark Mode' : 'Light Mode') + ' (Switch)'}
+            icon={Moon}
+            onPress={() => setMode(mode === 'dark' ? 'light' : 'dark')}
           />
         </Card>
 
@@ -152,108 +168,109 @@ export const Profile = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
-  scrollContent: {
-    padding: spacing.md,
-    paddingTop: 80,
-    paddingBottom: 120,
-  },
-  profileHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.xl,
-    paddingHorizontal: spacing.xs,
-  },
-  avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderWidth: 2,
-    borderColor: colors.primary,
-  },
-  profileInfo: {
-    marginLeft: spacing.lg,
-    flex: 1,
-  },
-  nameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  badge: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
-  },
-  badgeText: {
-    color: colors.background,
-    fontSize: 10,
-    fontWeight: '800',
-  },
-  editButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  statsRow: {
-    flexDirection: 'row',
-    marginBottom: spacing.xl,
-    padding: spacing.lg,
-  },
-  statBox: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: spacing.sm,
-  },
-  statIconBox: {
-    width: 38,
-    height: 38,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  borderLeft: {
-    borderLeftWidth: 1,
-    borderLeftColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  sectionTitle: {
-    marginBottom: spacing.md,
-    paddingHorizontal: spacing.xs,
-  },
-  menuCard: {
-    padding: 0,
-    marginBottom: spacing.lg,
-  },
-  menuItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: spacing.md,
-  },
-  row: { flexDirection: 'row', alignItems: 'center' },
-  menuIconBox: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  ml: { marginLeft: 12 },
-  divider: {
-    height: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    marginHorizontal: spacing.md,
-  },
-  footer: {
-    marginTop: spacing.xl,
-    paddingBottom: spacing.lg,
-  },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
+    scrollContent: {
+      padding: spacing.md,
+      paddingTop: 80,
+      paddingBottom: 120,
+    },
+    profileHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.xl,
+      paddingHorizontal: spacing.xs,
+    },
+    avatar: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      borderWidth: 2,
+      borderColor: colors.primary,
+    },
+    profileInfo: {
+      marginLeft: spacing.lg,
+      flex: 1,
+    },
+    nameRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.sm,
+    },
+    badge: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: 8,
+      paddingVertical: 2,
+      borderRadius: 6,
+    },
+    badgeText: {
+      color: colors.background,
+      fontSize: 10,
+      fontWeight: '800',
+    },
+    editButton: {
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    statsRow: {
+      flexDirection: 'row',
+      marginBottom: spacing.xl,
+      padding: spacing.lg,
+    },
+    statBox: {
+      flex: 1,
+      alignItems: 'center',
+      paddingVertical: spacing.sm,
+    },
+    statIconBox: {
+      width: 38,
+      height: 38,
+      borderRadius: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: spacing.sm,
+    },
+    borderLeft: {
+      borderLeftWidth: 1,
+      borderLeftColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    sectionTitle: {
+      marginBottom: spacing.md,
+      paddingHorizontal: spacing.xs,
+    },
+    menuCard: {
+      padding: 0,
+      marginBottom: spacing.lg,
+    },
+    menuItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: spacing.md,
+    },
+    row: { flexDirection: 'row', alignItems: 'center' },
+    menuIconBox: {
+      width: 36,
+      height: 36,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    ml: { marginLeft: 12 },
+    divider: {
+      height: 1,
+      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      marginHorizontal: spacing.md,
+    },
+    footer: {
+      marginTop: spacing.xl,
+      paddingBottom: spacing.lg,
+    },
+  })

@@ -1,10 +1,10 @@
 import { View, StyleSheet } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Flame } from 'lucide-react-native'
-import { colors } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
 import { Card } from '@/shared/components/ui/Card'
-import { useTranslation } from '@/shared/i18n'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface CaloriesBurnedCardProps {
   current: number
@@ -12,6 +12,9 @@ interface CaloriesBurnedCardProps {
 }
 
 export const CaloriesBurnedCard = ({ current, goal }: CaloriesBurnedCardProps) => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
+
   const { t } = useTranslation()
   const percentage = Math.min((current / goal) * 100, 100)
 
@@ -62,57 +65,58 @@ export const CaloriesBurnedCard = ({ current, goal }: CaloriesBurnedCardProps) =
   )
 }
 
-const styles = StyleSheet.create({
-  metricsCard: { marginBottom: 16, padding: 24 },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  rowBetween: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  caloriesText: { flex: 1, paddingRight: 16 },
-  iconBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255, 122, 0, 0.1)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  mt: { marginTop: 16 },
-  description: { color: colors.textMuted, fontSize: 12, marginTop: 4 },
-  chartCircle: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    borderWidth: 10,
-    borderColor: colors.surfaceLight,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  progressInner: { alignItems: 'center' },
-  progressHalf: {
-    position: 'absolute',
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    borderWidth: 10,
-    borderColor: colors.primary,
-    borderBottomColor: 'transparent',
-    borderLeftColor: 'transparent',
-  },
-  progressBarBg: {
-    height: 8,
-    backgroundColor: colors.surfaceLight,
-    borderRadius: 4,
-    marginVertical: 16,
-    overflow: 'hidden',
-  },
-  progressBarFill: { height: '100%', borderRadius: 4 },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    metricsCard: { marginBottom: 16, padding: 24 },
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    rowBetween: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 8,
+    },
+    caloriesText: { flex: 1, paddingRight: 16 },
+    iconBox: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: 'rgba(255, 122, 0, 0.1)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    mt: { marginTop: 16 },
+    description: { color: colors.textMuted, fontSize: 12, marginTop: 4 },
+    chartCircle: {
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      borderWidth: 10,
+      borderColor: colors.surfaceLight,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+    },
+    progressInner: { alignItems: 'center' },
+    progressHalf: {
+      position: 'absolute',
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      borderWidth: 10,
+      borderColor: colors.primary,
+      borderBottomColor: 'transparent',
+      borderLeftColor: 'transparent',
+    },
+    progressBarBg: {
+      height: 8,
+      backgroundColor: colors.surfaceLight,
+      borderRadius: 4,
+      marginVertical: 16,
+      overflow: 'hidden',
+    },
+    progressBarFill: { height: '100%', borderRadius: 4 },
+  })

@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { colors } from '@/shared/theme'
 import { Typography } from '@/shared/components/ui/Typography'
 import { Card } from '@/shared/components/ui/Card'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 interface NextExerciseItemProps {
   name: string
@@ -10,6 +10,9 @@ interface NextExerciseItemProps {
 }
 
 export const NextExerciseItem = ({ name, details }: NextExerciseItemProps) => {
+  const { theme: colors } = useAppTheme();
+  const styles = useStyles(colors);
+
   return (
     <Card style={styles.exerciseItem}>
       <View>
@@ -21,7 +24,7 @@ export const NextExerciseItem = ({ name, details }: NextExerciseItemProps) => {
   )
 }
 
-const styles = StyleSheet.create({
+const useStyles = (colors: any) => StyleSheet.create({
   exerciseItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',

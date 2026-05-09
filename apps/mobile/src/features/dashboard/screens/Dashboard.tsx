@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { colors, spacing } from '@/shared/theme'
+import { spacing } from '@/shared/theme'
 import { Button } from '@/shared/components/ui/Button'
 import { CaloriesBurnedCard } from '../components/CaloriesBurnedCard'
 import { WorkoutProgressCard } from '../components/WorkoutProgressCard'
@@ -8,9 +8,13 @@ import { BodyWeightCard } from '../components/BodyWeightCard'
 import { ExerciseStatCard } from '../components/ExerciseStatCard'
 import { DashboardSkeleton } from '../components/DashboardSkeleton'
 import { useDashboard } from '../hooks/useDashboard'
-import { useTranslation } from '@/shared/i18n'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { useAppTheme } from '@/shared/theme/ThemeProvider'
 
 export const Dashboard = () => {
+  const { theme: colors } = useAppTheme()
+  const styles = useStyles(colors)
+
   const { data, isLoading } = useDashboard()
   const { t } = useTranslation()
 
@@ -56,23 +60,24 @@ export const Dashboard = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background, paddingTop: 20 },
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: colors.background,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scrollContent: {
-    padding: spacing.md,
-    paddingTop: 80,
-    paddingBottom: 120,
-  },
-  rowGrid: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    marginBottom: spacing.md,
-  },
-  startButton: { height: 60, borderRadius: 20 },
-})
+const useStyles = (colors: any) =>
+  StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background, paddingTop: 20, borderRadius: 20 },
+    loadingContainer: {
+      flex: 1,
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    scrollContent: {
+      padding: spacing.md,
+      paddingTop: 80,
+      paddingBottom: 120,
+    },
+    rowGrid: {
+      flexDirection: 'row',
+      gap: spacing.md,
+      marginBottom: spacing.md,
+    },
+    startButton: { height: 60, borderRadius: 20 },
+  })
