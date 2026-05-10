@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ForgeFit",
-    "slug": "forgefit",
+    "name": "YumeFit",
+    "slug": "yumefit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,18 +10,18 @@
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0D0D0D"
+      "backgroundColor": "#0000000"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.devedsonalves.forgefit"
+      "bundleIdentifier": "com.devedsonalves.yumefit"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#0D0D0D"
+        "backgroundColor": "#000000"
       },
-      "package": "com.devedsonalves.forgefit"
+      "package": "com.devedsonalves.yumefit"
     },
     "web": {
       "favicon": "./assets/icon.png"

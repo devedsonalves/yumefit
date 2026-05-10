@@ -160,7 +160,7 @@ export const Profile = () => {
 
         <View style={styles.footer}>
           <Typography variant="label" color="textMuted" align="center">
-            ForgeFit v1.0.0
+            YumeFit v1.0.0
           </Typography>
         </View>
       </ScrollView>

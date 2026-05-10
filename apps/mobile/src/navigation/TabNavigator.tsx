@@ -14,7 +14,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   LayoutDashboard,
   Dumbbell,
-  BarChart3,
   User,
   Weight,
   Utensils,
@@ -23,7 +22,7 @@ import {
 } from 'lucide-react-native'
 import { Dashboard } from '../features/dashboard/screens/Dashboard'
 import { WorkoutMode } from '../features/workout/screens/Workout'
-import { Metrics } from '../features/metrics/screens/Metrics'
+import { Diet } from '../features/diet/screens/Diet'
 import { Profile } from '../features/profile/screens/Profile'
 import { Typography } from '../shared/components/ui/Typography'
 import { ActionModal } from '@/shared/components/ui/ActionModal'
@@ -52,8 +51,8 @@ export const TabNavigator = () => {
   }
 
   const menuItems = [
-    { id: 'weight', icon: Weight, color: '#FF7A00', label: 'PESO' },
-    { id: 'meal', icon: Utensils, color: '#FF7A00', label: 'REFEIÇÃO' },
+    { id: 'weight', icon: Weight, color: '#c8a45c', label: 'PESO' },
+    { id: 'meal', icon: Utensils, color: '#c8a45c', label: 'REFEIÇÃO' },
   ]
 
   const getAnimatedStyle = (index: number) => {
@@ -139,8 +138,7 @@ export const TabNavigator = () => {
 
             if (route.name === 'Dashboard') icon = <LayoutDashboard color={color} size={iconSize} />
             else if (route.name === 'Treino') icon = <Dumbbell color={color} size={iconSize} />
-            else if (route.name === 'Estatísticas')
-              icon = <BarChart3 color={color} size={iconSize} />
+            else if (route.name === 'Dieta') icon = <Utensils color={color} size={iconSize} />
             else if (route.name === 'Perfil') icon = <User color={color} size={iconSize} />
 
             if (route.name === 'Action') return null
@@ -181,7 +179,7 @@ export const TabNavigator = () => {
           }}
         />
 
-        <Tab.Screen name="Estatísticas" component={Metrics} />
+        <Tab.Screen name="Dieta" component={Diet} />
         <Tab.Screen name="Perfil" component={Profile} />
       </Tab.Navigator>
 
@@ -319,7 +317,7 @@ const useStyles = (colors: any) =>
       shadowOpacity: 0.25,
       shadowRadius: 4,
       borderWidth: 2,
-      borderColor: 'rgba(255,255,255,0.2)',
+      borderColor: colors.border,
     },
     optionLabel: {
       color: colors.text,

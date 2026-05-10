@@ -3,3 +3,5 @@ node_modules
 .turbo
 .expo
 .gemini
+.claude
+.agents
