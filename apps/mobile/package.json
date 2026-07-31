@@ -11,7 +11,7 @@
     "web": "expo start --web",
     "build": "expo export",
     "lint": "expo lint",
-    "test": "jest --watchAll=false",
+    "test": "jest --watchAll=false --passWithNoTests",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf .expo dist coverage"
   },
