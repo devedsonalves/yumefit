@@ -1,0 +1,78 @@
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.api
+    container_name: yumefit-api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: development
+      SECRET: local-docker-secret-change-before-production
+      EXPIRES_IN: 1d
+      CORS_ORIGIN: http://localhost:5173
+      TYPEORM_TYPE: postgres
+      TYPEORM_HOST: database
+      TYPEORM_PORT: 5432
+      TYPEORM_USERNAME: yumefit
+      TYPEORM_PASSWORD: yumefit_password
+      TYPEORM_DATABASE: yumefit
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      RATE_LIMIT_POINTS: 60
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - yumefit-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  database:
+    image: postgres:17-alpine
+    container_name: yumefit-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: yumefit
+      POSTGRES_PASSWORD: yumefit_password
+      POSTGRES_DB: yumefit
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - yumefit-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yumefit -d yumefit"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: yumefit-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - yumefit-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+
+networks:
+  yumefit-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
