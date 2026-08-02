@@ -46,6 +46,20 @@ textarea {
   font: inherit;
 }
 
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus,
+.auth-input:-webkit-autofill:active {
+  box-shadow: 0 0 0 1000px #1a1d1b inset;
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+}
+
+.auth-input:autofill {
+  background-color: #1a1d1b;
+  color: #ffffff;
+}
+
 #root {
   min-height: 100vh;
 }

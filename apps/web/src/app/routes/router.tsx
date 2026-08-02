@@ -13,6 +13,10 @@ import { AppLayout } from '@/shared/components/layout/app-layout';
 
 export const router = createBrowserRouter([
   {
+    path: '/',
+    element: <Navigate to="/login" replace />,
+  },
+  {
     element: <GuestRoute />,
     children: [
       {
@@ -37,27 +41,22 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        path: '/',
         element: <AppLayout />,
         children: [
           {
-            index: true,
-            element: <Navigate to="/dashboard" replace />,
-          },
-          {
-            path: 'dashboard',
+            path: '/dashboard',
             element: <DashboardPage />,
           },
           {
-            path: 'users',
+            path: '/users',
             element: <UsersPage />,
           },
           {
-            path: 'sessions',
+            path: '/sessions',
             element: <SessionsPage />,
           },
           {
-            path: 'account',
+            path: '/account',
             element: <AccountPage />,
           },
         ],

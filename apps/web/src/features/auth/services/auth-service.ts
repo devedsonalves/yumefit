@@ -20,14 +20,17 @@ type SessionsResponse = {
   sessions: AuthSession[]
 }
 
-export function login(credentials: LoginFormData) {
+type RegisterRequest = Pick<RegisterFormData, 'name' | 'email' | 'password'>
+type LoginRequest = Pick<LoginFormData, 'email' | 'password'>
+
+export function login(credentials: LoginRequest) {
   return httpClient<LoginResponse>('/auth/login', {
     method: 'POST',
     body: credentials,
   })
 }
 
-export function registerUser(data: RegisterFormData) {
+export function registerUser(data: RegisterRequest) {
   return httpClient<AuthUser>('/users', {
     method: 'POST',
     body: data,
