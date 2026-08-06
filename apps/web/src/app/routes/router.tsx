@@ -9,6 +9,7 @@ import { ResetPasswordPage } from '@/features/auth/pages/reset-password-page';
 import { SessionsPage } from '@/features/auth/pages/sessions-page';
 import { DashboardPage } from '@/features/dashboard/pages/dashboard-page';
 import { UsersPage } from '@/features/users/pages/users-page';
+import { PrivacyPolicyPage } from '@/features/legal/pages/privacy-policy-page';
 import { AppLayout } from '@/shared/components/layout/app-layout';
 
 export const router = createBrowserRouter([
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
         path: '/reset-password',
         element: <ResetPasswordPage />,
       },
+      {
+        path: '/privacy-policy',
+        element: <PrivacyPolicyPage />
+      }
     ],
   },
   {
