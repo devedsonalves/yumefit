@@ -1,94 +1,100 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Activity } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import { loginSchema, type LoginFormData } from '../schemas/login-schema';
+import { ApiError } from '@/shared/services/http/api-error';
+import { AuthFormField } from '../components/auth-form-field';
+import { AuthPageFooter } from '../components/auth-page-footer';
+import { AuthPageLayout } from '../components/auth-page-layout';
+import { AuthPasswordField } from '../components/auth-password-field';
+import { AuthSubmitButton } from '../components/auth-submit-button';
+import { TermsAcceptance } from '../components/terms-acceptance';
 import { useLogin } from '../hooks/use-login';
+import { loginSchema, type LoginFormData } from '../schemas/login-schema';
+
+function getLoginErrorMessage(error: unknown) {
+  if (error instanceof ApiError && (error.status === 401 || error.status === 403)) {
+    return 'E-mail ou senha incorretos. Verifique os dados e tente novamente.';
+  }
+
+  return 'Não foi possível acessar sua conta. Tente novamente em instantes.';
+}
 
 export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const loginMutation = useLogin();
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting, isValid },
     handleSubmit,
     register,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    mode: 'onChange',
+    defaultValues: { email: '', password: '', termsAccepted: false },
   });
 
   async function handleLogin(data: LoginFormData) {
-    await loginMutation.mutateAsync(data);
-    const redirectTo = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? '/dashboard';
-    navigate(redirectTo, { replace: true });
+    if (loginMutation.isPending) return;
+
+    try {
+      await loginMutation.mutateAsync(data);
+      const redirectTo = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? '/dashboard';
+      navigate(redirectTo, { replace: true });
+    } catch {
+      // A mutação mantém o erro disponível para a mensagem do formulário.
+    }
   }
 
   return (
-    <main className="grid min-h-screen place-items-center px-4 py-10">
-      <section className="w-full max-w-md rounded-md border bg-card p-6 shadow-sm">
-        <div className="mb-6 flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-md bg-primary text-primary-foreground">
-            <Activity aria-hidden="true" className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Yume Fit</p>
-            <h1 className="text-2xl font-bold">Acessar painel</h1>
-          </div>
-        </div>
+    <AuthPageLayout
+      title="Bem-vindo de volta"
+      description="Acesse sua conta e continue transformando objetivos em resultados."
+      footer={<AuthPageFooter prompt="Não possui uma conta?" linkLabel="Cadastrar-se" to="/register" />}
+    >
+      <form className="space-y-7" onSubmit={handleSubmit(handleLogin)} noValidate>
+        <AuthFormField
+          id="email"
+          type="email"
+          label="E-mail"
+          autoComplete="email"
+          placeholder="EXEMPLO@YUME.FIT"
+          error={errors.email?.message}
+          {...register('email')}
+        />
 
-        <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="email">
-              Email
-            </label>
-            <Input id="email" type="email" autoComplete="email" aria-invalid={Boolean(errors.email)} {...register('email')} />
-            {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="password">
-              Senha
-            </label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              aria-invalid={Boolean(errors.password)}
-              {...register('password')}
-            />
-            {errors.password ? <p className="text-sm text-destructive">{errors.password.message}</p> : null}
-          </div>
-
-          <div className="flex justify-end">
-            <Link className="text-sm font-medium text-primary hover:underline" to="/forgot-password">
+        <AuthPasswordField
+          id="password"
+          label="Senha"
+          autoComplete="current-password"
+          placeholder="••••••••"
+          error={errors.password?.message}
+          labelAction={
+            <Link className="text-xs font-semibold text-[#c7ff00] transition hover:text-white" to="/forgot-password">
               Esqueci minha senha
             </Link>
-          </div>
+          }
+          {...register('password')}
+        />
 
-          {loginMutation.isError ? (
-            <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              Nao foi possivel entrar. Confira os dados e tente novamente.
-            </p>
-          ) : null}
+        <TermsAcceptance
+          error={errors.termsAccepted?.message}
+          errorClassName="mt-1.5"
+          {...register('termsAccepted')}
+        />
 
-          <Button className="w-full" type="submit" disabled={loginMutation.isPending}>
-            {loginMutation.isPending ? 'Entrando...' : 'Entrar'}
-          </Button>
-        </form>
+        {loginMutation.isError ? (
+          <p role="alert" className="border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+            {getLoginErrorMessage(loginMutation.error)}
+          </p>
+        ) : null}
 
-        <p className="mt-5 text-center text-sm text-muted-foreground">
-          Ainda nao tem acesso?{' '}
-          <Link className="font-semibold text-primary hover:underline" to="/register">
-            Criar usuario
-          </Link>
-        </p>
-      </section>
-    </main>
+        <AuthSubmitButton
+          label="Entrar"
+          loadingLabel="Entrando..."
+          loading={loginMutation.isPending}
+          disabled={loginMutation.isPending || isSubmitting || !isValid}
+        />
+      </form>
+    </AuthPageLayout>
   );
 }

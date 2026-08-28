@@ -1,95 +1,115 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Activity } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import { registerSchema, type RegisterFormData } from '../schemas/register-schema';
+import { useNavigate } from 'react-router-dom';
+import { ApiError } from '@/shared/services/http/api-error';
+import { AuthFormField } from '../components/auth-form-field';
+import { AuthPageFooter } from '../components/auth-page-footer';
+import { AuthPageLayout } from '../components/auth-page-layout';
+import { AuthPasswordField } from '../components/auth-password-field';
+import { AuthSubmitButton } from '../components/auth-submit-button';
+import { TermsAcceptance } from '../components/terms-acceptance';
 import { useRegisterUser } from '../hooks/use-register-user';
+import { registerSchema, type RegisterFormData } from '../schemas/register-schema';
+
+function getRegisterErrorMessage(error: unknown) {
+  if (error instanceof ApiError && error.status >= 400 && error.status < 500) {
+    return 'Não foi possível criar a conta. Confira os dados informados e tente novamente.';
+  }
+
+  return 'Não foi possível criar sua conta. Tente novamente em instantes.';
+}
 
 export function RegisterPage() {
   const navigate = useNavigate();
   const registerMutation = useRegisterUser();
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting, isValid },
     handleSubmit,
     register,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
+    mode: 'onChange',
+    defaultValues: { name: '', email: '', password: '', confirmPassword: '', termsAccepted: false },
   });
 
   async function handleRegister(data: RegisterFormData) {
-    await registerMutation.mutateAsync(data);
-    navigate('/login', { replace: true });
+    if (registerMutation.isPending) return;
+
+    try {
+      await registerMutation.mutateAsync(data);
+      navigate('/login', { replace: true });
+    } catch {
+      // A mutação mantém o erro disponível para a mensagem do formulário.
+    }
   }
 
   return (
-    <main className="grid min-h-screen place-items-center px-4 py-10">
-      <section className="w-full max-w-md rounded-md border bg-card p-6 shadow-sm">
-        <div className="mb-6 flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-md bg-primary text-primary-foreground">
-            <Activity aria-hidden="true" className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Yume Fit</p>
-            <h1 className="text-2xl font-bold">Criar usuario</h1>
-          </div>
+    <AuthPageLayout
+      compact
+      title="Junte-se à elite"
+      description="Crie sua conta e tenha tudo o que precisa para alcançar resultados extraordinários."
+      footer={<AuthPageFooter prompt="Já possui uma conta?" linkLabel="Entrar" to="/login" />}
+    >
+      <form onSubmit={handleSubmit(handleRegister)} noValidate>
+        <AuthFormField
+          containerClassName="mb-6"
+          id="name"
+          label="Nome completo"
+          autoComplete="name"
+          placeholder="NOME SOBRENOME"
+          error={errors.name?.message}
+          {...register('name')}
+        />
+
+        <AuthFormField
+          containerClassName="mb-6"
+          id="register-email"
+          type="email"
+          label="E-mail"
+          autoComplete="email"
+          placeholder="EXEMPLO@YUME.FIT"
+          error={errors.email?.message}
+          {...register('email')}
+        />
+
+        <div className="mb-7 grid gap-4 sm:grid-cols-2">
+          <AuthPasswordField
+            id="register-password"
+            label="Senha"
+            autoComplete="new-password"
+            placeholder="••••••••"
+            error={errors.password?.message}
+            {...register('password')}
+          />
+          <AuthPasswordField
+            id="confirm-password"
+            label="Confirmar"
+            autoComplete="new-password"
+            placeholder="••••••••"
+            error={errors.confirmPassword?.message}
+            showLabel="Exibir confirmação de senha"
+            hideLabel="Ocultar confirmação de senha"
+            {...register('confirmPassword')}
+          />
         </div>
 
-        <form className="space-y-4" onSubmit={handleSubmit(handleRegister)}>
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="name">
-              Nome
-            </label>
-            <Input id="name" autoComplete="name" aria-invalid={Boolean(errors.name)} {...register('name')} />
-            {errors.name ? <p className="text-sm text-destructive">{errors.name.message}</p> : null}
-          </div>
+        <div className="mb-9">
+          <TermsAcceptance error={errors.termsAccepted?.message} {...register('termsAccepted')} />
+        </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="email">
-              Email
-            </label>
-            <Input id="email" type="email" autoComplete="email" aria-invalid={Boolean(errors.email)} {...register('email')} />
-            {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
-          </div>
+        {registerMutation.isError ? (
+          <p role="alert" className="mb-5 border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+            {getRegisterErrorMessage(registerMutation.error)}
+          </p>
+        ) : null}
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="password">
-              Senha
-            </label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete="new-password"
-              aria-invalid={Boolean(errors.password)}
-              {...register('password')}
-            />
-            {errors.password ? <p className="text-sm text-destructive">{errors.password.message}</p> : null}
-          </div>
-
-          {registerMutation.isError ? (
-            <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              Nao foi possivel criar o usuario. Verifique os dados e tente novamente.
-            </p>
-          ) : null}
-
-          <Button className="w-full" type="submit" disabled={registerMutation.isPending}>
-            {registerMutation.isPending ? 'Criando...' : 'Criar usuario'}
-          </Button>
-        </form>
-
-        <p className="mt-5 text-center text-sm text-muted-foreground">
-          Ja tem acesso?{' '}
-          <Link className="font-semibold text-primary hover:underline" to="/login">
-            Entrar
-          </Link>
-        </p>
-      </section>
-    </main>
+        <AuthSubmitButton
+          label="Criar conta"
+          loadingLabel="Criando..."
+          loading={registerMutation.isPending}
+          disabled={registerMutation.isPending || isSubmitting || !isValid}
+        />
+      </form>
+    </AuthPageLayout>
   );
 }
